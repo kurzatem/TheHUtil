@@ -1,0 +1,116 @@
+﻿namespace TheHUtil.Extensions
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Xml.Linq;
+
+    using TheHUtil.Extensions;
+    using TheHUtil.HelperConstants;
+
+    public static class XElementExt
+    {
+        private static string GetJustNumbers(this XElement element)
+        {
+            return element.TrimChildrenValues().RemoveAll(CharConsts.NotNumbers);
+        }
+
+        public static bool ChildrenHaveContents(this XElement element)
+        {
+            if (element.HasElements)
+            {
+                foreach (var child in element.Elements())
+                {
+                    if (!child.IsEmpty)
+                    {
+                        return true;
+                    }
+                }
+            }
+            else if (element.HasAttributes)
+            {
+                foreach (var attr in element.Attributes())
+                {
+                    if (!object.ReferenceEquals(attr.Value, null) || attr.Value == string.Empty)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        public static string TrimChildrenValues(this XElement element)
+        {
+            string result = element.Value;
+            if (element.IsEmpty)
+            {
+                throw new NullReferenceException("XML element does not contain any data.");
+            }
+            else if (element.ChildrenHaveContents())
+            {
+                foreach (var child in element.Elements())
+                {
+                    if (!child.IsEmpty)
+                    {
+                        string childValue = child.Value;
+                        int end = result.LastIndexOf(childValue, StringComparison.InvariantCulture) + childValue.Length;
+                        int begin = result.IndexOf(childValue, StringComparison.InvariantCulture);
+                        result = result.Remove(begin, end - begin);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        private static T TryParsingWithExistingParser<T>(XElement element, bool trimChildren)
+        {
+            var existingParser = typeof(T).GetMethod("Parse",
+                BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.NonPublic,
+                null,
+                new[] { typeof(string) }, new[] { new ParameterModifier(1) });
+
+            var rawResult = new object();
+            var input = trimChildren ? new[] { element.TrimChildrenValues() } : new[] { element.Value };
+            return (T)existingParser.Invoke(rawResult, input);
+        }
+
+        public static T ParseValue<T>(this XElement element, Func<string, T> parser = null, bool trimChildren = true)
+        {
+            if (parser.IsNull())
+            {
+                return TryParsingWithExistingParser<T>(element, trimChildren);
+            }
+
+            if (trimChildren)
+            {
+                return parser.Invoke(element.TrimChildrenValues());
+            }
+            else
+            {
+                return parser.Invoke(element.Value);
+            }
+        }
+
+        public static IEnumerable<T> ValueToCollection<T>(this XElement element, Func<string, T> parser, string[] separators, bool trimChildren = true)
+        {
+            string input;
+            if (trimChildren)
+            {
+                input = element.TrimChildrenValues();
+            }
+            else
+            {
+                input = element.Value;
+            }
+
+            var rawResult = input.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+            return rawResult.Select(parser);
+        }
+    }
+}
