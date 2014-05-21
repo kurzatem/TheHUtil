@@ -10,7 +10,9 @@
     using System.Text;
     using System.Xml.Linq;
 
-    public class Logger
+    using TheHUtil.Extensions;
+
+    public static partial class Logger
     {
         /// <summary>
         /// The list of <see cref="Log"/>s that is contained within this <see cref="Logger"/>.
@@ -31,6 +33,21 @@
         /// Determines whether the logger will be dumped to a file or to the debugger.
         /// </summary>
         private static bool dumpToFileOrDebugger;
+
+        /// <summary>
+        /// Defines the node name used for naming the root node of the xml file.
+        /// </summary>
+        public const string NODE_NAME_LOGS = "Logs";
+
+        /// <summary>
+        /// Defines the node name used for naming the program's starting executable.
+        /// </summary>
+        public const string NODE_NAME_ASSEMBLY_NAME = "Name";
+
+        /// <summary>
+        /// Defines the node name used for the version of the program being logged.
+        /// </summary>
+        public const string NODE_NAME_VERSION = "Version";
 
         /// <summary>
         /// Whether or not to include the stack when logging <see cref="Exception"/>s.
@@ -93,18 +110,22 @@
             if (System.Diagnostics.Debugger.IsAttached)
             {
                 logs = new List<Log>(1031);
+                IncludeStack = true;
+                IncludeToStringOutput = true;
+                LoggingLevel = 5;
+                DumpToFileOrDebugger = true;
             }
             else
             {
                 logs = new List<Log>(41);
+                IncludeStack = false;
+                IncludeToStringOutput = false;
+                LoggingLevel = 2;
+                DumpToFileOrDebugger = false;
             }
 
-            IncludeStack = false;
-            IncludeToStringOutput = false;
-            LoggingLevel = 2;
-            DumpToFileOrDebugger = false;
 
-            assembly = Assembly.GetEntryAssembly();
+            assembly = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
             version = FileVersionInfo.GetVersionInfo(assembly.Location);
         }
 
@@ -125,7 +146,7 @@
         /// <param name="level">The level of the log.</param>
         public static void AddToQueue(string loggingObjectName, Exception exceptionEntry, int level = 1)
         {
-            if (level >= LoggingLevel)
+            if (level <= LoggingLevel)
             {
                 AddToQueue(new Log(loggingObjectName, exceptionEntry, level, IncludeStack, IncludeToStringOutput));
             }
@@ -139,9 +160,9 @@
         /// <param name="level">The level of the log.</param>
         public static void AddToQueue(string loggingObjectName, string commentEntry, int level)
         {
-            if (level >= LoggingLevel)
+            if (level <= LoggingLevel)
             {
-                AddToQueue(new Log(loggingObjectName, commentEntry, level, IncludeStack));
+                AddToQueue(new Log(loggingObjectName, commentEntry, level));
             }
         }
 
@@ -154,10 +175,57 @@
         /// <param name="level">The level of the log.</param>
         public static void AddToQueue(string loggingObjectName, Exception exceptionEntry, string commentEntry, int level = 1)
         {
-            if (level >= LoggingLevel)
+            if (level <= LoggingLevel)
             {
                 AddToQueue(new Log(loggingObjectName, exceptionEntry, commentEntry, level, IncludeStack, IncludeToStringOutput));
             }
+        }
+
+        /// <summary>
+        /// Compiles the log queue to a single human readable string.
+        /// </summary>
+        /// <returns>The logs as a single human readable string.</returns>
+        private static string CompileQueueToString()
+        {
+            var rawResult = new StringBuilder(logs.Count * 4);
+            for (var index = 0; index < logs.Count; index++)
+            {
+                rawResult.Append(logs[index].ToString(index));
+            }
+
+            return rawResult.ToString();
+        }
+
+        /// <summary>
+        /// Compiles the log queue into a single <see cref="XElement"/> instance.
+        /// </summary>
+        /// <returns>The logs as a single <see cref="XElement"/> instance.</returns>
+        private static XElement CompileQueueToXElement()
+        {
+            var fullLog = new XElement
+                (
+                    NODE_NAME_LOGS,
+                    new XAttribute(NODE_NAME_ASSEMBLY_NAME, assembly.GetName().Name),
+                    new XAttribute(NODE_NAME_VERSION, version.ProductVersion)
+                );
+
+            for (var index = 0; index < logs.Count; index++)
+            {
+                fullLog.Add(logs[index].ToXml(index));
+            }
+
+            return fullLog;
+        }
+
+        /// <summary>
+        /// Compiles and dumps the log queue into a single string.
+        /// </summary>
+        /// <remarks>The string is in either the form of an xml file, without the declaration, or human readable text.</remarks>
+        /// <param name="asXml">Whether or not to dump the queue to xml or human readable text.</param>
+        /// <returns>A string that contains the log queue output.</returns>
+        public static string DumpQueueToString(bool asXml = true)
+        {
+            return asXml ? CompileQueueToXElement().ToString() : CompileQueueToString();
         }
 
         /// <summary>
@@ -166,17 +234,9 @@
         /// <param name="pathAndName">The location to write the file to.</param>
         private static void SaveAsXml(string pathAndName)
         {
-            var fullLog = new XElement("Logs",
-                new XAttribute("Name", assembly.GetName().Name),
-                new XAttribute("Version", version.ProductVersion));
-            for (var index = 0; index < logs.Count; index++)
-            {
-                fullLog.Add(logs[index].ToXml(index));
-            }
-            
             var doc = new XDocument(
                 new XDeclaration("1.0", "utf-8", "no"),
-                fullLog);
+                CompileQueueToXElement());
 
             doc.Save(pathAndName + ".xml");
         }
@@ -190,10 +250,7 @@
             using (var writer = new StreamWriter(pathAndName, false, Encoding.UTF8))
             {
                 writer.Write("Logs for: {0} version: {1}", assembly.FullName, version.ProductVersion);
-                for (var index = 0; index < logs.Count; index++)
-                {
-                    writer.Write(logs[index].ToString(index));
-                }
+                writer.Write(CompileQueueToString());
             }            
         }
 
@@ -205,11 +262,11 @@
         /// <param name="path">The directory path to the file.</param>
         /// <param name="asXml">Whether to write the file as xml or human readable text.</param>
         /// <returns>True: the file and library, as far as can be reasonably expected, work. False: check folder and file permissions or the library has a bug in it.</returns>
-        public static bool TestWriteQueueToFile(string name, string path = "", bool asXml = true)
+        public static bool TestWriteQueueToFile(string name = null, string path = "", bool asXml = true)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
-                return false;
+                name = GetDateBasedFileName();
             }
 
             string fullyQualifiedFileName;
@@ -267,10 +324,24 @@
         /// <remarks>The method <see cref="TestWriteQueueToFile"/> should be called early in development to ensure that your program will be able to utilize this library.</remarks>
         /// <param name="name">The name of the file to be used. This file will be placed in the same location as the executable that the <see cref="Logger"/> is created within.</param>
         /// <param name="asXml">Whether to write the logs as an xml file.</param>
-        public static void WriteQueueToFile(string name, bool asXml = true)
+        public static void WriteQueueToFile(string name = null, bool asXml = true)
         {
             var path = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Lo‌cation);
+            if (name.IsNull())
+            {
+                name = GetDateBasedFileName();
+            }
+
             WriteQueueToFile(path, name, asXml);
+        }
+
+        /// <summary>
+        /// Gets a simple filename based upon the current date.
+        /// </summary>
+        /// <returns>The date in the following format: Month-Day-Year</returns>
+        private static string GetDateBasedFileName()
+        {
+            return DateTime.Now.ToShortDateString().Replace('/', '-');
         }
 
         /// <summary>

@@ -89,7 +89,8 @@ namespace TheHUtilTests.Benchmarks
                     results[extCharCount].Average(t => t.Ticks)
                 };
 
-            string output = "\nNumber of iterations: " + iterations
+            string output = "It's supposed to fail."
+                + "\nNumber of iterations: " + iterations
                 + "\nIntersect technique: " + averages[0]
                 + "\nMy Count technique: " + averages[1]
                 + "\nCount technique: " + averages[2]

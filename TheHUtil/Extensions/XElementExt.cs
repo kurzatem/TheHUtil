@@ -18,6 +18,26 @@
             return element.TrimChildrenValues().RemoveAll(CharConsts.NotNumbers);
         }
 
+        public static bool AllAttributesAreEqual(this XElement subject, XElement other)
+        {
+            if (subject.Name == other.Name && subject.HasAttributes && other.HasAttributes)
+            {
+                foreach (var attr in subject.Attributes())
+                {
+                    if (attr.Value != other.Attribute(attr.Name).Value)
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public static bool ChildrenHaveContents(this XElement element)
         {
             if (element.HasElements)
@@ -71,7 +91,7 @@
         private static T TryParsingWithExistingParser<T>(XElement element, bool trimChildren)
         {
             var existingParser = typeof(T).GetMethod("Parse",
-                BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.NonPublic,
+                BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static,
                 null,
                 new[] { typeof(string) }, new[] { new ParameterModifier(1) });
 

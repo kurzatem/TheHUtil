@@ -8,7 +8,7 @@
 
     public static class ObjectExt
     {
-        public static bool ReferenceEquals(this object objA, object objB)
+        public new static bool ReferenceEquals(this object objA, object objB)
         {
             return object.ReferenceEquals(objA, objB);
         }

@@ -5,11 +5,54 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using System.Xml.Linq;
 
     using TheHUtil.HelperConstants;
     
     public static class StringExt
     {
+        private static List<Type> existingParsers = new List<Type>()
+        {
+            typeof(byte),
+            typeof(sbyte),
+            typeof(short),
+            typeof(ushort),
+            typeof(int),
+            typeof(uint),
+            typeof(long),
+            typeof(ulong),
+            typeof(float),
+            typeof(double),
+            typeof(decimal),
+            typeof(XElement),
+            typeof(XDocument)
+        };
+
+        /// <summary>
+        /// Gets all the locations of a specified character in a given string.
+        /// </summary>
+        /// <param name="input">The string to check for the character.</param>
+        /// <param name="character">The character to check for in the string.</param>
+        /// <returns>A collection of all the zero-based locations of the character in the string.</returns>
+        public static IList<int> AllIndexesOf(this string input, char character)
+        {
+            var result = new List<int>(input.Length);
+            if (!input.IsNull())
+            {
+                for (int index = 0; index < input.Length; index++)
+                {
+                    if (input[index] == character)
+                    {
+                        result.Add(index);
+                    }
+                }
+
+                return result;
+            }
+
+            return new[] { -1 };
+        }
+
         /// <summary>
         /// Determines if the input string contains all the given characters.
         /// </summary>
@@ -86,6 +129,45 @@
             foreach (var ch in chars)
             {
                 result += input.Count(ch);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Wraps <see cref="string.IsNullOrWhiteSpace"/> for clearer code.
+        /// </summary>
+        /// <param name="input">The string to check.</param>
+        /// <returns>True: the string is null, empty or all white space characters.</returns>
+        public static bool IsNullOrEmptyOrWhiteSpace(this string input)
+        {
+            return string.IsNullOrWhiteSpace(input);
+        }
+
+        /// <summary>
+        /// Gets the last index of a given character before a specified index.
+        /// </summary>
+        /// <param name="input">The string to check for the character.</param>
+        /// <param name="character">The character to check for in the string.</param>
+        /// <param name="checkBeforeThis">The zero-based index to check before.</param>
+        /// <returns>The last index of a character that appears before the given index. -1 is returned if the character is not found in the string.</returns>
+        public static int LastIndexOfBefore(this string input, char character, int checkBeforeThis)
+        {
+            var subject = input.AllIndexesOf(character);
+            int result = -1;
+            if (subject.Count > 0)
+            {
+                foreach (var index in subject)
+                {
+                    if (index < checkBeforeThis)
+                    {
+                        result = index;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
             }
 
             return result;
@@ -378,6 +460,11 @@
             }
 
             return input;
+        }
+
+        public static T ParseTo<T>(this string input)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>

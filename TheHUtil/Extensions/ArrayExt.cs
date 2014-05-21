@@ -12,6 +12,17 @@
     public static class ArrayExt
     {
         /// <summary>
+        /// Gets the last value of a given collection.
+        /// </summary>
+        /// <typeparam name="T">The collection's data type to use.</typeparam>
+        /// <param name="collection">The collection to get the last value of.</param>
+        /// <returns>The last value of a collection.</returns>
+        public static T LastValue<T>(this IList<T> collection)
+        {
+            return collection[collection.Count - 1];
+        }
+
+        /// <summary>
         /// Writes all entries of a collection to a single string.
         /// </summary>
         /// <typeparam name="T">The collection's data type to use. It is recommended that the parameterless "ToString" method be overridden for the object used.</typeparam>

@@ -65,5 +65,15 @@ namespace TheHUtilTests.Converters
 
             Assert.IsTrue(expectedArray.SequenceEqual(actualArray));
         }
+
+        [TestMethod]
+        public void shouldCheckAttributesForEquality()
+        {
+            var someData = XElement.Parse("<root Value = \"100\" />");
+            var moreData = XElement.Parse("<root Value = \"101\" />");
+
+            Assert.IsTrue(someData.AllAttributesAreEqual(someData));
+            Assert.IsFalse(someData.AllAttributesAreEqual(moreData));
+        }
     }
 }

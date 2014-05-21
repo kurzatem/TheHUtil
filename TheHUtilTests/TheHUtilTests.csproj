@@ -56,17 +56,20 @@
     <Compile Include="Extensions\XElementExtBehaviours.cs" />
     <Compile Include="Extensions\StringExtBehaviours.cs" />
     <Compile Include="Extensions\ArrayExtBehaviours.cs" />
+    <Compile Include="Logging\LoadableLogTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TheHUtilLoggerViewer\TheHUtilLoggerViewer.csproj">
+      <Project>{9adbf67a-d45f-4594-9c5e-6ec838468665}</Project>
+      <Name>TheHUtilLoggerViewer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TheHUtil\TheHUtil.csproj">
       <Project>{084be47a-f9de-4e37-a50a-ddb54dad0a09}</Project>
       <Name>TheHUtil</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Logging\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

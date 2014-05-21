@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TheHUtilLogViewer.Properties
+namespace TheHUtilLoggerViewer.Properties
 {
 
 
