@@ -52,7 +52,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Benchmarks\StringExtMethodologies.cs" />
     <Compile Include="Extensions\XElementExtBehaviours.cs" />
     <Compile Include="Extensions\StringExtBehaviours.cs" />
     <Compile Include="Extensions\ArrayExtBehaviours.cs" />

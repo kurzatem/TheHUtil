@@ -47,6 +47,7 @@
     <Compile Include="IOHelper\IO.cs" />
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Logging\Snapshot\LoggerOfT.cs" />
     <Compile Include="Logging\Snapshot\LogOfT.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
