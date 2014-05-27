@@ -188,9 +188,9 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Log"/> class.
         /// </summary>
-        /// <param name="loggingObjectName">The name of the object calling for the log. If this is not defined, then there will be a performance hit as the stack will be traced to find out the type of class called this.</param>
-        /// <param name="level">The logging level for this log.</param>
-        /// <param name="includeStack">Whether to include the stack in the log.</param>
+        /// <subjectAsParameter name="loggingObjectName">The name of the object calling for the log. If this is not defined, then there will be a performance hit as the stack will be traced to find out the type of class called this.</subjectAsParameter>
+        /// <subjectAsParameter name="level">The logging level for this log.</subjectAsParameter>
+        /// <subjectAsParameter name="includeStack">Whether to include the stack in the log.</subjectAsParameter>
         protected Log(string loggingObjectName, int level, bool includeStack = false)
         {
             if (string.IsNullOrWhiteSpace(loggingObjectName))
@@ -209,10 +209,10 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Log"/> class. This is for logging an <see cref="Exception"/>.
         /// </summary>
-        /// <param name="loggingObjectName">The name of the object calling for the log. If this is not defined, then there will be a performance hit as the provided exception will give up the data.</param>
-        /// <param name="exceptionEntry">The <see cref="Exception"/> to be logged.</param>
-        /// <param name="level">The logging level for this log.</param>
-        /// <param name="includeStack">Whether to include the stack in the log.</param>
+        /// <subjectAsParameter name="loggingObjectName">The name of the object calling for the log. If this is not defined, then there will be a performance hit as the provided exception will give up the data.</subjectAsParameter>
+        /// <subjectAsParameter name="exceptionEntry">The <see cref="Exception"/> to be logged.</subjectAsParameter>
+        /// <subjectAsParameter name="level">The logging level for this log.</subjectAsParameter>
+        /// <subjectAsParameter name="includeStack">Whether to include the stack in the log.</subjectAsParameter>
         public Log(string loggingObjectName, Exception exceptionEntry, int level, bool includeStack = true, bool includeToStringOutput = true) :
             this(
             loggingObjectName.IsNullOrEmptyOrWhiteSpace() ? exceptionEntry.TargetSite.ReflectedType.Name : loggingObjectName,
@@ -227,10 +227,10 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Log"/> class. This is for logging a comment.
         /// </summary>
-        /// <param name="loggingObjectName">The name of the object calling for the log. If this is not defined, then there will be a performance hit as the stack will be traced to find out the type of class called this.</param>
-        /// <param name="stringEntry">The comment to be logged.</param>
-        /// <param name="level">The logging level for this log.</param>
-        /// <param name="includeStack">Whether to include the stack in the log.</param>
+        /// <subjectAsParameter name="loggingObjectName">The name of the object calling for the log. If this is not defined, then there will be a performance hit as the stack will be traced to find out the type of class called this.</subjectAsParameter>
+        /// <subjectAsParameter name="stringEntry">The comment to be logged.</subjectAsParameter>
+        /// <subjectAsParameter name="level">The logging level for this log.</subjectAsParameter>
+        /// <subjectAsParameter name="includeStack">Whether to include the stack in the log.</subjectAsParameter>
         public Log(string loggingObjectName, string stringEntry, int level) :
             this(loggingObjectName, level)
         {
@@ -241,11 +241,11 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Log"/> class. This is for logging both an <see cref="Exception"/> and a comment.
         /// </summary>
-        /// <param name="loggingObjectName">The name of the object calling for the log. If this is not defined, then there will be a performance hit as the stack will be traced to find out the type of class called this.</param>
-        /// <param name="exceptionEntry">The <see cref="Exception"/> to be logged.</param>
-        /// <param name="stringEntry">The exceptionEntry to be logged.</param>
-        /// <param name="level">The logging level for this log.</param>
-        /// <param name="includeStack">Whether to include the stack in the log.</param>
+        /// <subjectAsParameter name="loggingObjectName">The name of the object calling for the log. If this is not defined, then there will be a performance hit as the stack will be traced to find out the type of class called this.</subjectAsParameter>
+        /// <subjectAsParameter name="exceptionEntry">The <see cref="Exception"/> to be logged.</subjectAsParameter>
+        /// <subjectAsParameter name="stringEntry">The exceptionEntry to be logged.</subjectAsParameter>
+        /// <subjectAsParameter name="level">The logging level for this log.</subjectAsParameter>
+        /// <subjectAsParameter name="includeStack">Whether to include the stack in the log.</subjectAsParameter>
         public Log(string loggingObjectName, Exception exceptionEntry, string stringEntry, int level, bool includeStack = true, bool includeToStringOutput = true) :
             this(loggingObjectName, exceptionEntry, level, includeStack, includeToStringOutput)
         {
@@ -255,8 +255,8 @@
         /// <summary>
         /// Resolves the type of the object that requested the log. If this is called, it will have a negative effect upon the program's performance.
         /// </summary>
-        /// <param name="loggingObjectName">The name of the object to be determined. Defaults to an empty string.</param>
-        /// <param name="layers">The number of layers or steps the trace back on the call stack.</param>
+        /// <subjectAsParameter name="loggingObjectName">The name of the object to be determined. Defaults to an empty string.</subjectAsParameter>
+        /// <subjectAsParameter name="layers">The number of layers or steps the trace back on the call stack.</subjectAsParameter>
         /// <returns>The string representing the object type that called for this log to be created. NOTE: this only traces back to the first object that is not of the <see cref="Log"/> type. Also, if the calling type is of the type <see cref="Log"/>, then the next calling type will be found. It should be noted that it *shouldn't* resolve past the Main method of a program.</returns>
         private string ResolveCallingType(int layers = 2)
         {
@@ -280,36 +280,15 @@
         /// <returns>The contents of the <see cref="Log"/> for writing as a human readable text file.</returns>
         public override string ToString()
         {
-            return this.ToString(-1);
-        }
-
-        /// <summary>
-        /// Dumps the internal data to a non-xml output.
-        /// </summary>
-        /// <param name="number">The number of the <see cref="Log"/>.</param>
-        /// <returns>The internal data of the <see cref="Log"/> in non-xml format.</returns>
-        public string ToString(int number)
-        {
-            var result = new StringBuilder();
-            result.AppendLine(NODE_NAME_LOG);
-            result.Append(ATTRIBUTE_NAME_FOR);
-            result.Append(": ");
-            result.AppendLine(this.loggingObjectName.GetType().ToString());
-            result.Append(ATTRIBUTE_NAME_NUMBER);
-            result.Append(": ");
-            result.AppendLine(number.ToString());
-            result.AppendLine((!object.ReferenceEquals(this.exceptionEntry, null)) ?
-                this.FormatExceptionToString() : this.FormatCommentToString());
-
-            return result.ToString();
+            return this.ToXml().ToString();
         }
 
         /// <summary>
         /// Dumps the internal data of the <see cref="Log"/> in an xml format.
         /// </summary>
-        /// <param name="number">The number of the <see cref="Log"/>.</param>
+        /// <subjectAsParameter name="number">The number of the <see cref="Log"/>.</subjectAsParameter>
         /// <returns>The internal data of the <see cref="Log"/> as xml.</returns>
-        public XElement ToXml(int number = -1)
+        public virtual XElement ToXml(int number = -1)
         {
             var result = new XElement(NODE_NAME_LOG,
                     new XAttribute(ATTRIBUTE_NAME_FOR, this.loggingObjectName),
@@ -330,23 +309,9 @@
         }
 
         /// <summary>
-        /// Formats the comment given in the <see cref="Log"/> to a string.
-        /// </summary>
-        /// <param name="number">The number of the <see cref="Log"/>.</param>
-        /// <returns>The comment data of the <see cref="Log"/> as a string.</returns>
-        private string FormatCommentToString()
-        {
-            var result = new StringBuilder();
-            result.AppendLine(NODE_NAME_COMMENT);
-            result.AppendLine(this.stringEntry);
-            result.AppendLine(TEXT_END_OF_COMMENT);
-            return result.ToString();
-        }
-
-        /// <summary>
         /// Formats the comment given in the <see cref="Log"/> to xml.
         /// </summary>
-        /// <param name="number">The number of the <see cref="Log"/>.</param>
+        /// <subjectAsParameter name="number">The number of the <see cref="Log"/>.</subjectAsParameter>
         /// <returns>The comment data of the <see cref="Log"/> as xml.</returns>
         private XElement FormatCommentToXml()
         {
@@ -357,25 +322,9 @@
         }
 
         /// <summary>
-        /// Formats the <see cref="Exception"/> given in the <see cref="Log"/> as a string.
-        /// </summary>
-        /// <param name="number">The number of the <see cref="Log"/>.</param>
-        /// <returns>The <see cref="Exception"/> data of the <see cref="Log"/> as a string.</returns>
-        private string FormatExceptionToString()
-        {
-            var result = FormatExceptionToString(this.exceptionEntry, this.includeStack, this.includeToStringOutput);
-            if (this.stringEntry.Length > 0)
-            {
-                result = result + this.FormatCommentToString();
-            }
-
-            return result;
-        }
-
-        /// <summary>
         /// Formats the <see cref="Exception"/> given in the <see cref="Log"/> as xml.
         /// </summary>
-        /// <param name="number">The number of the <see cref="Log"/>.</param>
+        /// <subjectAsParameter name="number">The number of the <see cref="Log"/>.</subjectAsParameter>
         /// <returns>The <see cref="Exception"/> data of the <see cref="Log"/> as a string.</returns>
         private XElement FormatExceptionToXml()
         {
@@ -389,57 +338,12 @@
         }
 
         /// <summary>
-        /// Formats a given <see cref="Exception"/>, optionally it's stack tracing, as a string.
-        /// </summary>
-        /// <param name="number">The number of the <see cref="Log"/>.</param>
-        /// <param name="e">The <see cref="Exception"/> to be converted.</param>
-        /// <param name="includeStack">Whether or not to include the stack.</param>
-        /// <param name="includeToStringOutput">Whether of not to include the output of the <see cref="Exception"/> "ToString" method.</param>
-        /// <returns>The given <see cref="Exception"/> as a string.</returns>
-        private static string FormatExceptionToString(Exception e, bool includeStack, bool includeToStringOutput)
-        {
-            var result = new StringBuilder();
-            result.AppendLine(NODE_NAME_EXCEPTION);
-
-            result.Append("Occured in ");
-            result.Append(e.TargetSite);
-            result.AppendLine(" method");
-            if (!string.IsNullOrWhiteSpace(e.Message))
-            {
-                result.Append(ATTRIBUTE_NAME_MESSAGE);
-                result.Append(": ");
-                result.AppendLine(e.Message);
-            }
-
-            if (!object.ReferenceEquals(e.InnerException, null))
-            {
-                result.Append("Inner exception: "); 
-                result.AppendLine(FormatExceptionToString(e.InnerException, includeStack, includeToStringOutput));
-            }
-
-            if (includeStack)
-            {
-                result.Append("Stack trace: ");
-                result.AppendLine(e.StackTrace);
-            }
-
-            if (includeToStringOutput)
-            {
-                result.Append("Output from ToString method: ");
-                result.AppendLine(e.ToString());
-            }
-
-            result.AppendLine(TEXT_END_OF_EXCEPTION);
-            return result.ToString();
-        }
-
-        /// <summary>
         /// Formats a given <see cref="Exception"/>, optionally it's stack tracing, as xml.
         /// </summary>
-        /// <param name="number">The number of the <see cref="Log"/>.</param>
-        /// <param name="e">The <see cref="Exception"/> to be formatted.</param>
-        /// <param name="includeStack">Whether or not to include the stack.</param>
-        /// <param name="includeToStringOutput">Whether of not to include the output of the <see cref="Exception"/> "ToString" method.</param>
+        /// <subjectAsParameter name="number">The number of the <see cref="Log"/>.</subjectAsParameter>
+        /// <subjectAsParameter name="e">The <see cref="Exception"/> to be formatted.</subjectAsParameter>
+        /// <subjectAsParameter name="includeStack">Whether or not to include the stack.</subjectAsParameter>
+        /// <subjectAsParameter name="includeToStringOutput">Whether of not to include the output of the <see cref="Exception"/> "ToString" method.</subjectAsParameter>
         /// <returns>The given <see cref="Exception"/> as xml.</returns>
         private static XElement FormatExceptionToXml(Exception e, bool includeStack, bool includeToStringOutput)
         {

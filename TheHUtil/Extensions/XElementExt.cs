@@ -88,23 +88,11 @@
             return result;
         }
 
-        private static T TryParsingWithExistingParser<T>(XElement element, bool trimChildren)
-        {
-            var existingParser = typeof(T).GetMethod("Parse",
-                BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static,
-                null,
-                new[] { typeof(string) }, new[] { new ParameterModifier(1) });
-
-            var rawResult = new object();
-            var input = trimChildren ? new[] { element.TrimChildrenValues() } : new[] { element.Value };
-            return (T)existingParser.Invoke(rawResult, input);
-        }
-
         public static T ParseValue<T>(this XElement element, Func<string, T> parser = null, bool trimChildren = true)
         {
             if (parser.IsNull())
             {
-                return TryParsingWithExistingParser<T>(element, trimChildren);
+                return trimChildren ? element.TrimChildrenValues().ParseTo<T>() : element.Value.ParseTo<T>();
             }
 
             if (trimChildren)

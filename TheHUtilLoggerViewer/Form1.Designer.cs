@@ -10,7 +10,7 @@
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
-        /// <param nameAndPath="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        /// <subjectAsParameter nameAndPath="disposing">true if managed resources should be disposed; otherwise, false.</subjectAsParameter>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))

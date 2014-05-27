@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using System.Text;
     using System.Threading.Tasks;
     using System.Xml.Linq;
@@ -11,28 +12,11 @@
     
     public static class StringExt
     {
-        private static List<Type> existingParsers = new List<Type>()
-        {
-            typeof(byte),
-            typeof(sbyte),
-            typeof(short),
-            typeof(ushort),
-            typeof(int),
-            typeof(uint),
-            typeof(long),
-            typeof(ulong),
-            typeof(float),
-            typeof(double),
-            typeof(decimal),
-            typeof(XElement),
-            typeof(XDocument)
-        };
-
         /// <summary>
         /// Gets all the locations of a specified character in a given string.
         /// </summary>
-        /// <param name="input">The string to check for the character.</param>
-        /// <param name="character">The character to check for in the string.</param>
+        /// <subjectAsParameter name="input">The string to check for the character.</subjectAsParameter>
+        /// <subjectAsParameter name="character">The character to check for in the string.</subjectAsParameter>
         /// <returns>A collection of all the zero-based locations of the character in the string.</returns>
         public static IList<int> AllIndexesOf(this string input, char character)
         {
@@ -56,8 +40,8 @@
         /// <summary>
         /// Determines if the input string contains all the given characters.
         /// </summary>
-        /// <param name="input">The string to check.</param>
-        /// <param name="chars">The characters to check for.</param>
+        /// <subjectAsParameter name="input">The string to check.</subjectAsParameter>
+        /// <subjectAsParameter name="chars">The characters to check for.</subjectAsParameter>
         /// <returns>True: contains all the given characters. False: does not contain all the given characters.</returns>
         public static bool ContainsAll(this string input, IList<char> chars)
         {
@@ -75,8 +59,8 @@
         /// <summary>
         /// Determines if the input string contains any of the given characters.
         /// </summary>
-        /// <param name="input">The string to check.</param>
-        /// <param name="chars">The characters to check for.</param>
+        /// <subjectAsParameter name="input">The string to check.</subjectAsParameter>
+        /// <subjectAsParameter name="chars">The characters to check for.</subjectAsParameter>
         /// <returns>True: contains any of the given characters. False: does not contain any of the given characters.</returns>
         public static bool ContainsAny(this string input, IList<char> chars)
         {
@@ -98,8 +82,8 @@
         /// <summary>
         /// Counts all the ocurrances of a given string within another string.
         /// </summary>
-        /// <param name="input">The string to check.</param>
-        /// <param name="substring">The string to check for.</param>
+        /// <subjectAsParameter name="input">The string to check.</subjectAsParameter>
+        /// <subjectAsParameter name="substring">The string to check for.</subjectAsParameter>
         /// <returns>The number of substrings present within the input string.</returns>
         public static int Count(this string input, string substring)
         {
@@ -109,8 +93,8 @@
         /// <summary>
         /// Counts all the occurances of a given character within a string.
         /// </summary>
-        /// <param name="input">The string to check.</param>
-        /// <param name="character">The character to check for.</param>
+        /// <subjectAsParameter name="input">The string to check.</subjectAsParameter>
+        /// <subjectAsParameter name="character">The character to check for.</subjectAsParameter>
         /// <returns>The number of characters that match the given character in the input string.</returns>
         public static int Count(this string input, char character)
         {
@@ -120,8 +104,8 @@
         /// <summary>
         /// Counts all the occurances of a given set of characters within a string.
         /// </summary>
-        /// <param name="input">The string to check.</param>
-        /// <param name="chars">The set of characters to check for.</param>
+        /// <subjectAsParameter name="input">The string to check.</subjectAsParameter>
+        /// <subjectAsParameter name="chars">The set of characters to check for.</subjectAsParameter>
         /// <returns>The number of matches between all the given characters and the input string.</returns>
         public static int Count(this string input, IList<char> chars)
         {
@@ -137,7 +121,7 @@
         /// <summary>
         /// Wraps <see cref="string.IsNullOrWhiteSpace"/> for clearer code.
         /// </summary>
-        /// <param name="input">The string to check.</param>
+        /// <subjectAsParameter name="input">The string to check.</subjectAsParameter>
         /// <returns>True: the string is null, empty or all white space characters.</returns>
         public static bool IsNullOrEmptyOrWhiteSpace(this string input)
         {
@@ -145,12 +129,12 @@
         }
 
         /// <summary>
-        /// Gets the last index of a given character before a specified index.
+        /// Gets the result index of a given character before a specified index.
         /// </summary>
-        /// <param name="input">The string to check for the character.</param>
-        /// <param name="character">The character to check for in the string.</param>
-        /// <param name="checkBeforeThis">The zero-based index to check before.</param>
-        /// <returns>The last index of a character that appears before the given index. -1 is returned if the character is not found in the string.</returns>
+        /// <subjectAsParameter name="input">The string to check for the character.</subjectAsParameter>
+        /// <subjectAsParameter name="character">The character to check for in the string.</subjectAsParameter>
+        /// <subjectAsParameter name="checkBeforeThis">The zero-based index to check before.</subjectAsParameter>
+        /// <returns>The result index of a character that appears before the given index. -1 is returned if the character is not found in the string.</returns>
         public static int LastIndexOfBefore(this string input, char character, int checkBeforeThis)
         {
             var subject = input.AllIndexesOf(character);
@@ -176,9 +160,9 @@
         /// <summary>
         /// Removes all occurances of a given character from a string after a specified index.
         /// </summary>
-        /// <param name="input">The string to remove from.</param>
-        /// <param name="removeThis">The characters to remove.</param>
-        /// <param name="startIndex">The zero-based index from which to start removing.</param>
+        /// <subjectAsParameter name="input">The string to remove from.</subjectAsParameter>
+        /// <subjectAsParameter name="removeThis">The characters to remove.</subjectAsParameter>
+        /// <subjectAsParameter name="startIndex">The zero-based index from which to start removing.</subjectAsParameter>
         /// <returns>The given string with all occurances of the given character after the designated starting index.</returns>
         public static string RemoveAfter(this string input, char removeThis, int startIndex)
         {
@@ -190,9 +174,9 @@
         /// <summary>
         /// Removes all occurances of a given set of characters from a string after a specified index.
         /// </summary>
-        /// <param name="input">The string to remove from.</param>
-        /// <param name="removeThese">The characters to remove.</param>
-        /// <param name="startIndex">The zero-based index from which to start removing.</param>
+        /// <subjectAsParameter name="input">The string to remove from.</subjectAsParameter>
+        /// <subjectAsParameter name="removeThese">The characters to remove.</subjectAsParameter>
+        /// <subjectAsParameter name="startIndex">The zero-based index from which to start removing.</subjectAsParameter>
         /// <returns>The given string with all occurances of the given characters after the designated starting index.</returns>
         public static string RemoveAfter(this string input, IList<char> removeThese, int startIndex)
         {
@@ -204,9 +188,9 @@
         /// <summary>
         /// Removes all occurances of a given string from another string after a specified index.
         /// </summary>
-        /// <param name="input">The string to remove from.</param>
-        /// <param name="stringToRemove">The string to remove.</param>
-        /// <param name="startIndex">The zero-based index from which to start removing.</param>
+        /// <subjectAsParameter name="input">The string to remove from.</subjectAsParameter>
+        /// <subjectAsParameter name="stringToRemove">The string to remove.</subjectAsParameter>
+        /// <subjectAsParameter name="startIndex">The zero-based index from which to start removing.</subjectAsParameter>
         /// <returns>The given string with all occurances of the given string to remove after the designated starting index.</returns>
         public static string RemoveAfter(this string input, string removeThis, int startIndex)
         {
@@ -221,8 +205,8 @@
         /// <summary>
         /// Removes all occurances of a character from a string.
         /// </summary>
-        /// <param name="input">The string to remove from.</param>
-        /// <param name="removeThis">The character to remove.</param>
+        /// <subjectAsParameter name="input">The string to remove from.</subjectAsParameter>
+        /// <subjectAsParameter name="removeThis">The character to remove.</subjectAsParameter>
         /// <returns>The given string with all the given character removed.</returns>
         public static string RemoveAll(this string input, char removeThis)
         {
@@ -248,8 +232,8 @@
         /// <summary>
         /// Removes all occurances of a given set of characters from a string.
         /// </summary>
-        /// <param name="input">The string to remove from.</param>
-        /// <param name="removeThese">The characters to remove.</param>
+        /// <subjectAsParameter name="input">The string to remove from.</subjectAsParameter>
+        /// <subjectAsParameter name="removeThese">The characters to remove.</subjectAsParameter>
         /// <returns>The given string with all of the given characters removed.</returns>
         public static string RemoveAll(this string input, IList<char> removeThese)
         {
@@ -275,8 +259,8 @@
         /// <summary>
         /// Removes all occurances of a given string from anotehr string.
         /// </summary>
-        /// <param name="input">The string to remove from.</param>
-        /// <param name="removeThis">The characters to remove.</param>
+        /// <subjectAsParameter name="input">The string to remove from.</subjectAsParameter>
+        /// <subjectAsParameter name="removeThis">The characters to remove.</subjectAsParameter>
         /// <returns>The given string with the given string removed.</returns>
         public static string RemoveAll(this string input, string removeThis)
         {
@@ -315,10 +299,10 @@
         /// <summary>
         /// Removes a specified number of character occurances from a given string.
         /// </summary>
-        /// <param name="input">The string to remove from.</param>
-        /// <param name="removeThis">The character to remove.</param>
-        /// <param name="count">The number of times that the character should be removed.</param>
-        /// <param name="fromBeginning">Whether to remove from the beginning or end.</param>
+        /// <subjectAsParameter name="input">The string to remove from.</subjectAsParameter>
+        /// <subjectAsParameter name="removeThis">The character to remove.</subjectAsParameter>
+        /// <subjectAsParameter name="count">The number of times that the character should be removed.</subjectAsParameter>
+        /// <subjectAsParameter name="fromBeginning">Whether to remove from the beginning or end.</subjectAsParameter>
         /// <returns>The given string with a specified number of occurances of a given character.</returns>
         public static string RemoveCount(this string input, char removeThis, int count = 1, bool fromBeginning = true)
         {
@@ -356,10 +340,10 @@
         /// <summary>
         /// Removes a specified number of string occurances from a given string.
         /// </summary>
-        /// <param name="input">The string to remove from.</param>
-        /// <param name="removeThis">The string to remove.</param>
-        /// <param name="count">The number of times to remove the string to be removed.</param>
-        /// <param name="fromBeginning">Whether to remove from the beginning or end.</param>
+        /// <subjectAsParameter name="input">The string to remove from.</subjectAsParameter>
+        /// <subjectAsParameter name="removeThis">The string to remove.</subjectAsParameter>
+        /// <subjectAsParameter name="count">The number of times to remove the string to be removed.</subjectAsParameter>
+        /// <subjectAsParameter name="fromBeginning">Whether to remove from the beginning or end.</subjectAsParameter>
         /// <returns>The given string with a specified number of occurances of a given character.</returns>
         public static string RemoveCount(this string input, string removeThis, int count = 1, bool fromBeginning = true)
         {
@@ -397,8 +381,8 @@
         /// <summary>
         /// Removes the first occurance of a given character from a string.
         /// </summary>
-        /// <param name="input">The string to remove from.</param>
-        /// <param name="removeThis">The character to remove.</param>
+        /// <subjectAsParameter name="input">The string to remove from.</subjectAsParameter>
+        /// <subjectAsParameter name="removeThis">The character to remove.</subjectAsParameter>
         /// <returns>The given string with the first given character removed.</returns>
         public static string RemoveFirst(this string input, char removeThis)
         {
@@ -414,8 +398,8 @@
         /// <summary>
         /// Removes the first occurance of a given string from another string.
         /// </summary>
-        /// <param name="input">The string to remove from.</param>
-        /// <param name="removeThis">The string to remove.</param>
+        /// <subjectAsParameter name="input">The string to remove from.</subjectAsParameter>
+        /// <subjectAsParameter name="removeThis">The string to remove.</subjectAsParameter>
         /// <returns>The given string with the first occurance of another string removed.</returns>
         public static string RemoveFirst(this string input, string removeThis)
         {
@@ -429,11 +413,11 @@
         }
 
         /// <summary>
-        /// Removes the last occurance of a given string from another string.
+        /// Removes the result occurance of a given string from another string.
         /// </summary>
-        /// <param name="input">The string to remove from.</param>
-        /// <param name="removeThis">The string to remove.</param>
-        /// <returns>The given string with the last occurance of another string removed.</returns>
+        /// <subjectAsParameter name="input">The string to remove from.</subjectAsParameter>
+        /// <subjectAsParameter name="removeThis">The string to remove.</subjectAsParameter>
+        /// <returns>The given string with the result occurance of another string removed.</returns>
         public static string RemoveLast(this string input, string removeThis)
         {
             if (!string.IsNullOrEmpty(input) && !string.IsNullOrEmpty(removeThis) && input.Contains(removeThis))
@@ -446,11 +430,11 @@
         }
 
         /// <summary>
-        /// Removes the last occurance of a character from a given string.
+        /// Removes the result occurance of a character from a given string.
         /// </summary>
-        /// <param name="input">The string to remove from.</param>
-        /// <param name="removeThis">The character to remove.</param>
-        /// <returns>The given string with the last occurance of a given character.</returns>
+        /// <subjectAsParameter name="input">The string to remove from.</subjectAsParameter>
+        /// <subjectAsParameter name="removeThis">The character to remove.</subjectAsParameter>
+        /// <returns>The given string with the result occurance of a given character.</returns>
         public static string RemoveLast(this string input, char removeThis)
         {
             if (!string.IsNullOrEmpty(input) && input.Contains(removeThis))
@@ -462,16 +446,38 @@
             return input;
         }
 
+        /// <summary>
+        /// Attempts to parse a string to any type that has an existing parser.
+        /// </summary>
+        /// <remarks>This will only attempt to check if there is a public static method named "Parse" that accepts a string. If one is not found, then an exception is thrown.</remarks>
+        /// <typeparam name="T">A generic type to parse the input string to.</typeparam>
+        /// <subjectAsParameter name="input">The string to parse.</subjectAsParameter>
+        /// <returns>A new object of type "T" that has parsed the given string.</returns>
+        /// <exception cref="InvalidOperationException">The type of object does not contain a public static method named "Parse". Other exceptions are from "Type.GetMethod".</exception>
         public static T ParseTo<T>(this string input)
         {
-            throw new NotImplementedException();
+            var existingParser = typeof(T).GetMethod("Parse",
+                BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Static,
+                null,
+                new[] { typeof(string) }, new[] { new ParameterModifier(1) });
+
+            if (existingParser.IsNull())
+            {
+                throw new InvalidOperationException("Type does not contain a public static method named \"Parse\" that accepts a single string as it's parameter.");
+            }
+            else
+            {
+                var rawResult = new object();
+                var rawInput = new[] { input };
+                return (T)existingParser.Invoke(rawResult, rawInput);
+            }
         }
 
         /// <summary>
         /// Preserves, in the original order, a set of characters in a given string.
         /// </summary>
-        /// <param name="input">The string to remove from.</param>
-        /// <param name="keepThese">The set of characters to preserve.</param>
+        /// <subjectAsParameter name="input">The string to remove from.</subjectAsParameter>
+        /// <subjectAsParameter name="keepThese">The set of characters to preserve.</subjectAsParameter>
         /// <returns>The given string with all but the given set of characters removed. This preserves the given string's order.</returns>
         public static string Preserve(this string input, IList<char> keepThese)
         {
@@ -497,8 +503,8 @@
         /// <summary>
         /// Converts the given string to a <see cref="Byte"/>.
         /// </summary>
-        /// <param name="input">The string to convert.</param>
-        /// <param name="clean">Whether to remove the non-numeric characters or not.</param>
+        /// <subjectAsParameter name="input">The string to convert.</subjectAsParameter>
+        /// <subjectAsParameter name="clean">Whether to remove the non-numeric characters or not.</subjectAsParameter>
         /// <returns>The given string as a byte.</returns>
         public static byte ToByte(this string input, bool clean = true)
         {
@@ -510,8 +516,8 @@
         /// <summary>
         /// Converts a given string to a <see cref="byte"/> wrapped in a <see cref="Nullable<T>"/> instance.
         /// </summary>
-        /// <param name="input">The string to convert.</param>
-        /// <param name="clean">Whether to remove the non-numeric characters or not.</param>
+        /// <subjectAsParameter name="input">The string to convert.</subjectAsParameter>
+        /// <subjectAsParameter name="clean">Whether to remove the non-numeric characters or not.</subjectAsParameter>
         /// <returns>The given string as a nullable byte.</returns>
         public static byte? ToNullableByte(this string input, bool clean = true)
         {

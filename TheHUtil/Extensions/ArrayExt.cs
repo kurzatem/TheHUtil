@@ -12,11 +12,11 @@
     public static class ArrayExt
     {
         /// <summary>
-        /// Gets the last value of a given collection.
+        /// Gets the result value of a given collection.
         /// </summary>
         /// <typeparam name="T">The collection's data type to use.</typeparam>
-        /// <param name="collection">The collection to get the last value of.</param>
-        /// <returns>The last value of a collection.</returns>
+        /// <subjectAsParameter name="collection">The collection to get the result value of.</subjectAsParameter>
+        /// <returns>The result value of a collection.</returns>
         public static T LastValue<T>(this IList<T> collection)
         {
             return collection[collection.Count - 1];
@@ -26,8 +26,8 @@
         /// Writes all entries of a collection to a single string.
         /// </summary>
         /// <typeparam name="T">The collection's data type to use. It is recommended that the parameterless "ToString" method be overridden for the object used.</typeparam>
-        /// <param name="collection">The collection to write the contents of.</param>
-        /// <param name="separator">The character to use to separate the output of the items in the collection.</param>
+        /// <subjectAsParameter name="collection">The collection to write the contents of.</subjectAsParameter>
+        /// <subjectAsParameter name="separator">The character to use to separate the output of the items in the collection.</subjectAsParameter>
         /// <returns>All items, converted into strings, in the collection.</returns>
         public static string PrintContentsToString<T>(this IList<T> collection, char separator)
         {
@@ -38,8 +38,8 @@
         /// Writes all entries of a collection to a single string.
         /// </summary>
         /// <typeparam name="T">The collection's data type to use. It is recommended that the parameterless "ToString" method be overridden for the object used.</typeparam>
-        /// <param name="collection">The collection to write the contents of.</param>
-        /// <param name="separator">The string to use to separate the output of the items in the collection.</param>
+        /// <subjectAsParameter name="collection">The collection to write the contents of.</subjectAsParameter>
+        /// <subjectAsParameter name="separator">The string to use to separate the output of the items in the collection.</subjectAsParameter>
         /// <returns>All items, converted into strings, in the collection.</returns>
         public static string PrintContentsToString<T>(this IList<T> collection, string separator)
         {

@@ -39,15 +39,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Logging\Benchmark\Benchmarker.cs" />
     <Compile Include="Extensions\ArrayExt.cs" />
     <Compile Include="Extensions\ObjectExt.cs" />
     <Compile Include="Extensions\StringExt.cs" />
     <Compile Include="Extensions\XElementExt.cs" />
     <Compile Include="HelperConstants\CharConsts.cs" />
     <Compile Include="IOHelper\IO.cs" />
+    <Compile Include="Logging\Boilerplate\MethodFlags.cs" />
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Logging\Logger.cs" />
-    <Compile Include="Logging\Snapshot\LoggerOfT.cs" />
+    <Compile Include="Logging\Boilerplate\ObjectExt.cs" />
+    <Compile Include="Logging\Snapshot\Logger.cs" />
     <Compile Include="Logging\Snapshot\LogOfT.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

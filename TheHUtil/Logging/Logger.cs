@@ -12,7 +12,7 @@
 
     using TheHUtil.Extensions;
 
-    public static partial class Logger
+    public static class Logger
     {
         /// <summary>
         /// The list of <see cref="Log"/>s that is contained within this <see cref="Logger"/>.
@@ -132,8 +132,8 @@
         /// <summary>
         /// Adds a <see cref="Log"/> instance to the <see cref="Logger"/>. This disregards logging levels.
         /// </summary>
-        /// <param name="log">The <see cref="Log"/> instance to add.</param>
-        public static void AddToQueue(Log log)
+        /// <subjectAsParameter name="log">The <see cref="Log"/> instance to add.</subjectAsParameter>
+        internal static void AddToQueue(Log log)
         {
             logs.Add(log);
         }
@@ -141,9 +141,9 @@
         /// <summary>
         /// Initializes and adds a new instance of the <see cref="Log"/> class to the logger.
         /// </summary>
-        /// <param name="loggingObjectName">The name of the type of object to write the log about. NOTE: if this is not included, there will be a performance hit as the object's type is discovered by tracing the stack.</param>
-        /// <param name="exceptionEntry">The <see cref="Exception"/> to log.</param>
-        /// <param name="level">The level of the log.</param>
+        /// <subjectAsParameter name="loggingObjectName">The name of the type of object to write the log about. NOTE: if this is not included, there will be a performance hit as the object's type is discovered by tracing the stack.</subjectAsParameter>
+        /// <subjectAsParameter name="exceptionEntry">The <see cref="Exception"/> to log.</subjectAsParameter>
+        /// <subjectAsParameter name="level">The level of the log.</subjectAsParameter>
         public static void AddToQueue(string loggingObjectName, Exception exceptionEntry, int level = 1)
         {
             if (level <= LoggingLevel)
@@ -155,9 +155,9 @@
         /// <summary>
         /// Initializes and adds a new instance of the <see cref="Log"/> class to the logger.
         /// </summary>
-        /// <param name="loggingObjectName">The name of the type of object to write the log about. NOTE: if this is not included, there will be a performance hit as the object's type is discovered by tracing the stack.</param>
-        /// <param name="commentEntry">The comment to log.</param>
-        /// <param name="level">The level of the log.</param>
+        /// <subjectAsParameter name="loggingObjectName">The name of the type of object to write the log about. NOTE: if this is not included, there will be a performance hit as the object's type is discovered by tracing the stack.</subjectAsParameter>
+        /// <subjectAsParameter name="commentEntry">The comment to log.</subjectAsParameter>
+        /// <subjectAsParameter name="level">The level of the log.</subjectAsParameter>
         public static void AddToQueue(string loggingObjectName, string commentEntry, int level)
         {
             if (level <= LoggingLevel)
@@ -169,10 +169,10 @@
         /// <summary>
         /// Initializes and adds a new instance of the <see cref="Log"/> class to the logger.
         /// </summary>
-        /// <param name="loggingObjectName">The name of the type of object to write the log about. NOTE: if this is not included, there will be a performance hit as the object's type is discovered by tracing the stack.</param>
-        /// <param name="exceptionEntry">The <see cref="Exception"/> to log.</param>
-        /// <param name="commentEntry">The comment to log.</param>
-        /// <param name="level">The level of the log.</param>
+        /// <subjectAsParameter name="loggingObjectName">The name of the type of object to write the log about. NOTE: if this is not included, there will be a performance hit as the object's type is discovered by tracing the stack.</subjectAsParameter>
+        /// <subjectAsParameter name="exceptionEntry">The <see cref="Exception"/> to log.</subjectAsParameter>
+        /// <subjectAsParameter name="commentEntry">The comment to log.</subjectAsParameter>
+        /// <subjectAsParameter name="level">The level of the log.</subjectAsParameter>
         public static void AddToQueue(string loggingObjectName, Exception exceptionEntry, string commentEntry, int level = 1)
         {
             if (level <= LoggingLevel)
@@ -221,7 +221,7 @@
         /// Compiles and dumps the log queue into a single string.
         /// </summary>
         /// <remarks>The string is in either the form of an xml file, without the declaration, or human readable text.</remarks>
-        /// <param name="asXml">Whether or not to dump the queue to xml or human readable text.</param>
+        /// <subjectAsParameter name="asXml">Whether or not to dump the queue to xml or human readable text.</subjectAsParameter>
         /// <returns>A string that contains the log queue output.</returns>
         public static string DumpQueueToString(bool asXml = true)
         {
@@ -231,7 +231,7 @@
         /// <summary>
         /// Compiles all the logs into a single xml file and writes it to a designated location.
         /// </summary>
-        /// <param name="pathAndName">The location to write the file to.</param>
+        /// <subjectAsParameter name="pathAndName">The location to write the file to.</subjectAsParameter>
         private static void SaveAsXml(string pathAndName)
         {
             var doc = new XDocument(
@@ -244,7 +244,7 @@
         /// <summary>
         /// Compiles all the logs into a single human readable text file and writes it to a designated location.
         /// </summary>
-        /// <param name="pathAndName">The location to write the file to.</param>
+        /// <subjectAsParameter name="pathAndName">The location to write the file to.</subjectAsParameter>
         private static void SaveAsText(string pathAndName)
         {
             using (var writer = new StreamWriter(pathAndName, false, Encoding.UTF8))
@@ -258,9 +258,9 @@
         /// Tests if a log file can be written to a specific location.
         /// </summary>
         /// <remarks>This is a test method that will help ensure that your program will be able to write a file successfully.</remarks>
-        /// <param name="name">The name of the file. This can contain the path as well.</param>
-        /// <param name="path">The directory path to the file.</param>
-        /// <param name="asXml">Whether to write the file as xml or human readable text.</param>
+        /// <subjectAsParameter name="name">The name of the file. This can contain the path as well.</subjectAsParameter>
+        /// <subjectAsParameter name="path">The directory path to the file.</subjectAsParameter>
+        /// <subjectAsParameter name="asXml">Whether to write the file as xml or human readable text.</subjectAsParameter>
         /// <returns>True: the file and library, as far as can be reasonably expected, work. False: check folder and file permissions or the library has a bug in it.</returns>
         public static bool TestWriteQueueToFile(string name = null, string path = "", bool asXml = true)
         {
@@ -301,7 +301,7 @@
         /// <summary>
         /// Tests if a file can be accessed by this library.
         /// </summary>
-        /// <param name="fullyQualifiedFileName">The fully qualified (not relative) file name to test.</param>
+        /// <subjectAsParameter name="fullyQualifiedFileName">The fully qualified (not relative) file name to test.</subjectAsParameter>
         /// <returns>True: it worked. False: check a few things.</returns>
         private static bool TestFileLocation(string fullyQualifiedFileName)
         {
@@ -322,8 +322,8 @@
         /// Compiles all the logs into a single file and writes it to a designated location.
         /// </summary>
         /// <remarks>The method <see cref="TestWriteQueueToFile"/> should be called early in development to ensure that your program will be able to utilize this library.</remarks>
-        /// <param name="name">The name of the file to be used. This file will be placed in the same location as the executable that the <see cref="Logger"/> is created within.</param>
-        /// <param name="asXml">Whether to write the logs as an xml file.</param>
+        /// <subjectAsParameter name="name">The name of the file to be used. This file will be placed in the same location as the executable that the <see cref="Logger"/> is created within.</subjectAsParameter>
+        /// <subjectAsParameter name="asXml">Whether to write the logs as an xml file.</subjectAsParameter>
         public static void WriteQueueToFile(string name = null, bool asXml = true)
         {
             var path = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Lo‌cation);
@@ -348,9 +348,9 @@
         /// Compiles all the logs into a single file and writes it to a designated location.
         /// </summary>
         /// <remarks>The method <see cref="TestWriteQueueToFile"/> should be called early in development to ensure that your program will be able to utilize this library.</remarks>
-        /// <param name="path">The directory path to the log file.</param>
-        /// <param name="name">The name of the log file.</param>
-        /// <param name="asXml">Whether to write the file as xml or human readable text.</param>
+        /// <subjectAsParameter name="path">The directory path to the log file.</subjectAsParameter>
+        /// <subjectAsParameter name="name">The name of the log file.</subjectAsParameter>
+        /// <subjectAsParameter name="asXml">Whether to write the file as xml or human readable text.</subjectAsParameter>
         public static void WriteQueueToFile(string path, string name, bool asXml = true)
         {
             if (asXml)

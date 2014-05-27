@@ -55,6 +55,8 @@
     <Compile Include="Extensions\XElementExtBehaviours.cs" />
     <Compile Include="Extensions\StringExtBehaviours.cs" />
     <Compile Include="Extensions\ArrayExtBehaviours.cs" />
+    <Compile Include="Logging\Boilerplate\ObjectExtTests.cs" />
+    <Compile Include="Logging\Boilerplate\Testee.cs" />
     <Compile Include="Logging\LoadableLogTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

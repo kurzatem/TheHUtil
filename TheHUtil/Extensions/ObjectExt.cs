@@ -6,7 +6,7 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    public static class ObjectExt
+    public static partial class ObjectExt
     {
         public new static bool ReferenceEquals(this object objA, object objB)
         {
