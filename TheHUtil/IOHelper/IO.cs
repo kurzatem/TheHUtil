@@ -26,6 +26,22 @@
             }
         }
 
+        private static FileInfo GetFileInfo(string name, string path)
+        {
+            string pathAndName;
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                pathAndName = name;
+            }
+            else
+            {
+                pathAndName = Path.Combine(path, name);
+            }
+
+            var fileInfo = new FileInfo(pathAndName);
+            return fileInfo;
+        }
+
         public static string ReadFile(string name, string path = null)
         {
             var fileInfo = GetFileInfo(name, path);
@@ -56,20 +72,18 @@
             }
         }
 
-        private static FileInfo GetFileInfo(string name, string path)
+        public static FileStream GetFileStream(string fileName, string filePath = null)
         {
-            string pathAndName;
-            if (string.IsNullOrWhiteSpace(path))
+            var fileInfo = GetFileInfo(fileName, filePath);
+
+            if (fileInfo.Exists)
             {
-                pathAndName = name;
+                return fileInfo.Open(FileMode.Open);
             }
             else
             {
-                pathAndName = Path.Combine(path, name);
+                return fileInfo.Create();
             }
-
-            var fileInfo = new FileInfo(pathAndName);
-            return fileInfo;
         }
     }
 }

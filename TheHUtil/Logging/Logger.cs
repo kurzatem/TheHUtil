@@ -190,7 +190,7 @@
             var rawResult = new StringBuilder(logs.Count * 4);
             for (var index = 0; index < logs.Count; index++)
             {
-                rawResult.Append(logs[index].ToString(index));
+                rawResult.Append(logs[index].ToString());
             }
 
             return rawResult.ToString();
@@ -258,8 +258,8 @@
         /// Tests if a log file can be written to a specific location.
         /// </summary>
         /// <remarks>This is a test method that will help ensure that your program will be able to write a file successfully.</remarks>
-        /// <subjectAsParameter name="name">The name of the file. This can contain the path as well.</subjectAsParameter>
-        /// <subjectAsParameter name="path">The directory path to the file.</subjectAsParameter>
+        /// <subjectAsParameter name="name">The name of the file. This can contain the filePath as well.</subjectAsParameter>
+        /// <subjectAsParameter name="filePath">The directory filePath to the file.</subjectAsParameter>
         /// <subjectAsParameter name="asXml">Whether to write the file as xml or human readable text.</subjectAsParameter>
         /// <returns>True: the file and library, as far as can be reasonably expected, work. False: check folder and file permissions or the library has a bug in it.</returns>
         public static bool TestWriteQueueToFile(string name = null, string path = "", bool asXml = true)
@@ -348,7 +348,7 @@
         /// Compiles all the logs into a single file and writes it to a designated location.
         /// </summary>
         /// <remarks>The method <see cref="TestWriteQueueToFile"/> should be called early in development to ensure that your program will be able to utilize this library.</remarks>
-        /// <subjectAsParameter name="path">The directory path to the log file.</subjectAsParameter>
+        /// <subjectAsParameter name="filePath">The directory filePath to the log file.</subjectAsParameter>
         /// <subjectAsParameter name="name">The name of the log file.</subjectAsParameter>
         /// <subjectAsParameter name="asXml">Whether to write the file as xml or human readable text.</subjectAsParameter>
         public static void WriteQueueToFile(string path, string name, bool asXml = true)

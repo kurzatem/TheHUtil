@@ -30,16 +30,14 @@
             return ObjectExtCache<T>.Equals(subject, other);
         }
 
-        static class ObjectExtCache<T>
+        internal static class ObjectExtCache<T>
         {
             private static Func<T, T> cloneTree;
 
             private static Func<T, T, bool> equalsTree;
 
             private static Func<T, int> hashCodeTree;
-            
-            private static Func<T> parameterlessCtor;
-            
+                        
             private static Func<T, T> MakeCloneMethod()
             {
                 var subjectAsParameter = Expression.Parameter(typeof(T), "in");
