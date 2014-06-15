@@ -49,7 +49,7 @@
     <Compile Include="Extensions\StringExt.cs" />
     <Compile Include="Extensions\XElementExt.cs" />
     <Compile Include="HelperConstants\CharConsts.cs" />
-    <Compile Include="IOHelper\IO.cs" />
+    <Compile Include="IOHelper\IOHelper.cs" />
     <Compile Include="Logging\Boilerplate\MethodFlags.cs" />
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Logging\Logger.cs" />
@@ -57,7 +57,7 @@
     <Compile Include="Logging\Snapshot\Logger.cs" />
     <Compile Include="Logging\Snapshot\LogOfT.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="XmlAndJson\JXElement.cs" />
+    <Compile Include="XmlAndJson\IO.cs" />
     <Compile Include="XmlAndJson\XmlTypeConverters.cs" />
   </ItemGroup>
   <ItemGroup>

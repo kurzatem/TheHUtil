@@ -1,15 +1,11 @@
 ﻿namespace TheHUtil.IOHelper
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     using TheHUtil.Logging;
 
-    public static class IO
+    public static class IOHelper
     {
         private static string className;
 
@@ -19,7 +15,7 @@
             {
                 if (string.IsNullOrWhiteSpace(className))
                 {
-                    className = typeof(IO).Name;
+                    className = typeof(IOHelper).Name;
                 }
 
                 return className;

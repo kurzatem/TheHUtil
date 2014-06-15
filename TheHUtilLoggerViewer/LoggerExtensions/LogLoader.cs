@@ -57,7 +57,7 @@
             worker.ReportProgress(0);
             this.logs.Clear();
             worker.ReportProgress(25);
-            var fileData = XElement.Parse(IO.ReadFile(nameAndPath));
+            var fileData = XElement.Parse(IOHelper.ReadFile(nameAndPath));
             worker.ReportProgress(50);
             foreach (var logData in fileData.Elements("Log"))
             {
@@ -99,7 +99,7 @@
             try
             {
                 Logger.AddToQueue("LogLoader", "nameAndPath: " + nameAndPath, 1);
-                this.classFiles.Add(Path.GetFileName(nameAndPath), IO.ReadFile(nameAndPath));
+                this.classFiles.Add(Path.GetFileName(nameAndPath), IOHelper.ReadFile(nameAndPath));
             }
             catch (UnauthorizedAccessException)
             {
