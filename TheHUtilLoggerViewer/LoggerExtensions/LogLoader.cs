@@ -74,7 +74,7 @@
         {
             if (!this.view.SelectedLogListing.IsNullOrEmptyOrWhiteSpace())
             {
-                var logNumber = this.view.SelectedLogListing.ToInt();
+                var logNumber = this.view.SelectedLogListing.ParseTo<int>();
                 var log = this.logs[logNumber];
                 log.BindUiToData();
                 if (!log.ClassFileNameAndPath.IsNullOrEmptyOrWhiteSpace())
@@ -111,7 +111,7 @@
             }
             catch (Exception e)
             {
-                Logger.AddToQueue("LogLoader", e);
+                Logger.AddToQueue(e);
             }
         }
     }

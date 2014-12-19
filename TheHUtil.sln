@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheHUtil", "TheHUtil\TheHUt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheHUtilTests", "TheHUtilTests\TheHUtilTests.csproj", "{D058A06D-5DA6-42BD-AEED-BB296B4D33A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheHUtilLoggerViewer", "TheHUtilLoggerViewer\TheHUtilLoggerViewer.csproj", "{9ADBF67A-D45F-4594-9C5E-6EC838468665}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheHUtilTestGenerator", "TheHUtilTestGenerator\TheHUtilTestGenerator.csproj", "{E661929F-B827-46FC-9BFF-3F6A14E6D29E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +21,10 @@ Global
 		{D058A06D-5DA6-42BD-AEED-BB296B4D33A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D058A06D-5DA6-42BD-AEED-BB296B4D33A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D058A06D-5DA6-42BD-AEED-BB296B4D33A9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9ADBF67A-D45F-4594-9C5E-6EC838468665}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9ADBF67A-D45F-4594-9C5E-6EC838468665}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9ADBF67A-D45F-4594-9C5E-6EC838468665}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9ADBF67A-D45F-4594-9C5E-6EC838468665}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E661929F-B827-46FC-9BFF-3F6A14E6D29E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E661929F-B827-46FC-9BFF-3F6A14E6D29E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E661929F-B827-46FC-9BFF-3F6A14E6D29E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E661929F-B827-46FC-9BFF-3F6A14E6D29E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

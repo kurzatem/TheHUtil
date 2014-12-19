@@ -25,7 +25,7 @@
         private string exceptionStack;
 
         private string exceptionOutput;
-
+        
         private string logComment;
 
         private ILogData view;
@@ -73,7 +73,7 @@
             {
                 var colonIndex = this.exceptionOutput.LastIndexOf(':');
                 var rawResult = this.exceptionOutput.Remove(0, colonIndex);
-                return rawResult.ToInt();
+                return rawResult.ParseTo<int>();
             }
         }
 
@@ -86,7 +86,7 @@
             this(view)
         {
             this.logForClassName = input.Attribute(Log.ATTRIBUTE_NAME_FOR).Value;
-            this.logNumber = input.Attribute(Log.ATTRIBUTE_NAME_NUMBER).Value.ToInt();
+            this.logNumber = input.Attribute(Log.ATTRIBUTE_NAME_NUMBER).Value.ParseTo<int>();
             Logger.AddToQueue("LogData", "Attempting to enter log information from xml.", 3);
             var exception = input.Element(Log.NODE_NAME_EXCEPTION);
             if (!exception.IsNull())
@@ -95,7 +95,6 @@
                 this.exceptionMethodName = CheckAndAssign(exception, Log.ATTRIBUTE_NAME_METHOD);
                 this.exceptionMessage = CheckAndAssign(exception, Log.ATTRIBUTE_NAME_MESSAGE);
                 this.exceptionStack = CheckAndAssign(exception, Log.ATTRIBUTE_NAME_STACK);
-                this.exceptionOutput = CheckAndAssign(exception, Log.ATTRIBUTE_NAME_TO_STRING_OUTPUT);
             }
 
             var comment = input.Element(Log.NODE_NAME_COMMENT);
@@ -110,12 +109,12 @@
             var attribute = input.Attribute(attributeName);
             if (attribute.IsNull())
             {
-                Logger.AddToQueue(null, "No value for " + attributeName, 3);
+                Logger.AddToQueue("LogData", "No value for " + attributeName, 3);
                 return string.Empty;
             }
             else
             {
-                Logger.AddToQueue(null, attribute.Value + " is the value for " + attributeName, 3);
+                Logger.AddToQueue("LogData", attribute.Value + " is the value for " + attributeName, 3);
                 return attribute.Value;
             }
         }

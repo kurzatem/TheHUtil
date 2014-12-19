@@ -61,7 +61,7 @@ namespace TheHUtilTests.Converters
 
             data = XElement.Parse("<root>100, 101, 102, 103</root>");
             var expectedArray = new[] { 100, 101, 102, 103 };
-            var actualArray = data.ValueToCollection(int.Parse, new[] { ", " });
+            var actualArray = data.ParseValueToCollection(int.Parse, new[] { ", " });
 
             Assert.IsTrue(expectedArray.SequenceEqual(actualArray));
         }

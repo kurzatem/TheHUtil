@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TheHUtil</RootNamespace>
     <AssemblyName>TheHUtil</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,12 +30,15 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -43,19 +47,45 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Logging\Benchmark\Benchmarker.cs" />
-    <Compile Include="Extensions\ArrayExt.cs" />
+    <Compile Include="Extensions\EnumConverters.cs" />
+    <Compile Include="Extensions\ExceptionFactory.cs" />
+    <Compile Include="Extensions\ICloneableOfT.cs" />
+    <Compile Include="Testing\CodeGenerator.cs" />
+    <Compile Include="Testing\GenerateTestsForMethodAttribute.cs" />
+    <Compile Include="Testing\TestGeneratorAttribute.cs" />
+    <Compile Include="Testing\TestGeneratorParameterCasesAttribute.cs" />
+    <Compile Include="Testing\TestGeneratorReturnValueCasesAttribute.cs" />
+    <Compile Include="Testing\TestingHelpers.cs" />
+    <Compile Include="KingISS\Internal\Enums\NotationCategories.cs" />
+    <Compile Include="KingISS\Internal\Keywords.cs" />
+    <Compile Include="KingISS\Internal\Definition.cs" />
+    <Compile Include="KingISS\Internal\StyleGuideData.cs" />
+    <Compile Include="KingISS\Internal\StyleGuideEntry.cs" />
+    <Compile Include="KingISS\Internal\StyleGuideManager.cs" />
+    <Compile Include="KingISS\Internal\KingISSReader.cs" />
+    <Compile Include="KingISS\Internal\KingISSWriter.cs" />
+    <Compile Include="KingISS\KingISSManager.cs" />
+    <Compile Include="Extensions\CollectionsExt.cs" />
     <Compile Include="Extensions\ObjectExt.cs" />
     <Compile Include="Extensions\StringExt.cs" />
     <Compile Include="Extensions\XElementExt.cs" />
     <Compile Include="HelperConstants\CharConsts.cs" />
     <Compile Include="IOHelper\IOHelper.cs" />
-    <Compile Include="Logging\Boilerplate\MethodFlags.cs" />
-    <Compile Include="Logging\Log.cs" />
-    <Compile Include="Logging\Logger.cs" />
-    <Compile Include="Logging\Boilerplate\ObjectExt.cs" />
-    <Compile Include="Logging\Snapshot\Logger.cs" />
-    <Compile Include="Logging\Snapshot\LogOfT.cs" />
+    <Compile Include="Other\IndexedTuple.cs" />
+    <Compile Include="Other\CircularQueue.cs" />
+    <Compile Include="Pipeline\ExecutionState.cs" />
+    <Compile Include="Pipeline\PipelineProgressOfT.cs" />
+    <Compile Include="Pipeline\State.cs" />
+    <Compile Include="Pipeline\StepBuildResults.cs" />
+    <Compile Include="Pipeline\BuildState.cs" />
+    <Compile Include="Pipeline\ProcessingStages.cs" />
+    <Compile Include="Pipeline\StepInsertionResult.cs" />
+    <Compile Include="Pipeline\StepWrapper.cs" />
+    <Compile Include="Pipeline\StepWrapperOfT.cs" />
+    <Compile Include="Pipeline\PipelineManager.cs" />
+    <Compile Include="Pipeline\PipelineScheme.cs" />
+    <Compile Include="Pipeline\StepLocation.cs" />
+    <Compile Include="Pipeline\StepMetadata.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XmlAndJson\IO.cs" />
     <Compile Include="XmlAndJson\XmlTypeConverters.cs" />

@@ -1,0 +1,2 @@
+notation for int assigner is =
+notation for array collector is [ and ]

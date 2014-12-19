@@ -46,17 +46,6 @@ namespace TheHUtilTests.Extensions
         }
 
         [TestMethod]
-        public void shouldConvertToInt32()
-        {
-            var data = "fur75n3jkd87";
-            var expected = 75387;
-
-            var actual = data.ToInt();
-
-            Assert.IsTrue(expected == actual);
-        }
-
-        [TestMethod]
         public void shouldRemoveAllLetters()
         {
             var data = "jfuierwoyt8290ytugrehvjfrbewuig5o4y27t";
@@ -76,6 +65,27 @@ namespace TheHUtilTests.Extensions
             var actual = data.Preserve(CharConsts.Letters);
 
             Assert.IsTrue(expected == actual);
+        }
+
+        [TestMethod]
+        public void shouldParseUsingGenericParser()
+        {
+            // Setup and test in this order: int, float, and bool.
+            var dataInt = "90";
+            var dataFloat = "90.01";
+            var dataBool = bool.FalseString;
+
+            var expectedInt = 90;
+            var expectedFloat = 90.01f;
+            var expectedBool = false;
+
+            var actualInt = dataInt.ParseTo<int>();
+            var actualFloat = dataFloat.ParseTo<float>();
+            var actualBool = dataBool.ParseTo<bool>();
+
+            Assert.IsTrue(actualInt.Equals(expectedInt));
+            Assert.IsTrue(actualFloat - expectedFloat < float.Epsilon);
+            Assert.IsTrue(actualBool.Equals(expectedBool));
         }
     }
 }

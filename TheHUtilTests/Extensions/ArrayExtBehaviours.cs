@@ -1,10 +1,13 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TheHUtil.Extensions;
-
-namespace TheHUtilTests.Extensions
+﻿namespace TheHUtilTests.Extensions
 {
+    using System;
+    using System.Linq;
+
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    using TheHUtil.Extensions;
+    using TheHUtil.HelperConstants;
+
     [TestClass]
     public class ArrayExtBehaviours
     {

@@ -1,99 +1,122 @@
 ﻿namespace TheHUtil.HelperConstants
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
+    using TheHUtil.Extensions;
+
+    /// <summary>
+    /// Defines the <see cref="CharConsts"/> static class.
+    /// </summary>
     public static class CharConsts
     {
+        /// <summary>
+        /// Defines all possible characters in the UTF-16 encoding.
+        /// </summary>
         public static char[] AllPossibilities
         {
-            get
-            {
-                return Enumerable.Range(char.MinValue, char.MaxValue + 1).Select(c => (char)c).ToArray();
-            }
+            get;
+            private set;
         }
 
-        public static char[] Numbers
-        {
-            get
-            {
-                return AllPossibilities.Where(c => char.IsNumber(c)).ToArray();
-            }
-        }
-
-        public static char[] NotNumbers
-        {
-            get
-            {
-                return AllPossibilities.Where(c => !char.IsNumber(c)).ToArray();
-            }
-        }
-
+        /// <summary>
+        /// Defines every letters in the UTF-16 encoding.
+        /// </summary>
         public static char[] Letters
         {
-            get
-            {
-                return AllPossibilities.Where(c => char.IsLetter(c)).ToArray();
-            }
+            get;
+            private set;
         }
 
-        public static char[] NotLetters
+        /// <summary>
+        /// Defines every number in the UTF-16 encoding.
+        /// </summary>
+        public static char[] Numbers
         {
-            get
-            {
-                return AllPossibilities.Where(c => !char.IsLetter(c)).ToArray();
-            }
+            get;
+            private set;
         }
 
-        public static char[] Symbols
+        /// <summary>
+        /// Defines everything that is a number and the comma, period and minus sign in the UTF-16 encoding.
+        /// </summary>
+        public static char[] NumbersAndNotations
         {
-            get
-            {
-                return AllPossibilities.Where(c => char.IsSymbol(c)).ToArray();
-            }
+            get;
+            private set;
         }
 
-        public static char[] NotSymbols
-        {
-            get
-            {
-                return AllPossibilities.Where(c => !char.IsSymbol(c)).ToArray();
-            }
-        }
-
-        public static char[] NumericNotations
-        {
-            get
-            {
-                return AllPossibilities.Where(c => char.IsNumber(c) | c == ',' | c == '.').ToArray();
-            }
-        }
-
-        public static char[] NotNumericNotation
-        {
-            get
-            {
-                return AllPossibilities.Where(c => !char.IsNumber(c) | c != ',' | c != '.').ToArray();
-            }
-        }
-
+        /// <summary>
+        /// Defines every punctuation mark in the UTF-16 encoding.
+        /// </summary>
         public static char[] Punctuation
         {
-            get
-            {
-                return AllPossibilities.Where(c => char.IsSeparator(c)).ToArray();
-            }
+            get;
+            private set;
         }
 
-        public static char[] NotPunctuation
+        /// <summary>
+        /// Defines every symbol in the UTF-16 encoding.
+        /// </summary>
+        public static char[] Symbols
         {
-            get
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Initializes the static instance of the <see cref="CharConsts"/> class.
+        /// </summary>
+        static CharConsts()
+        {
+            // NOTE: the list sizes are optimised for memory usage as well as speed. They were taken from an older design's array lengths.
+            var all = new List<char>(65536); //  All
+            var letters = new List<char>(47572); //  Letters
+            var numbers = new List<char>(630); //  Numbers
+            var numbersPlus = new List<char>(633); //  Numbers and notations
+            var punctuation = new List<char>(20); //  Punctuation
+            var symbols = new List<char>(3490); //  Symbols
+            
+            foreach (var rawChar in Enumerable.Range(char.MinValue, char.MaxValue + 1))
             {
-                return AllPossibilities.Where(c => !char.IsPunctuation(c)).ToArray();
+                var ch = (char)rawChar;
+                // all
+                all.Add(ch);
+                if (char.IsLetter(ch))
+                {
+                    // letters
+                    letters.Add(ch);
+                }
+                else if (char.IsNumber(ch))
+                {
+                    // numbers
+                    numbers.Add(ch);
+                    // numbers and notations
+                    numbersPlus.Add(ch);
+                }
+                else if (char.IsSeparator(ch))
+                {
+                    // symbols
+                    symbols.Add(ch);
+
+                }
+                else if (char.IsPunctuation(ch))
+                {
+                    // punctuation
+                    punctuation.Add(ch);
+                }
             }
+
+            numbersPlus.Add(',');
+            numbersPlus.Add('.');
+            numbersPlus.Add('-');
+
+            AllPossibilities = all.ToArray();
+            Letters = letters.ToArray();
+            Numbers = numbers.ToArray();
+            NumbersAndNotations = numbersPlus.ToArray();
+            Punctuation = punctuation.ToArray();
+            Symbols = symbols.ToArray();
         }
     }
 }
